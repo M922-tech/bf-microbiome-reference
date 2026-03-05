@@ -1,0 +1,15 @@
+name: bf-microbiome
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - python=3.10
+  - qiime2=2025.10
+  - humann3=3.9
+  - r-base=4.3
+  - picrust2
+  - pandas
+  - numpy
+  - matplotlib
+  - jupyter

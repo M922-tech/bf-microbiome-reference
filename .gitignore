@@ -1,11 +1,19 @@
-# Données brutes (trop volumineuses)
-data/raw/*.fastq.gz
-data/raw/*.fastq
-data/raw/*.sff
+# Données brutes 16S (trop volumineuses)
+data/16S/raw/*.fastq.gz
+data/16S/raw/*.fastq
+data/16S/raw/*.sff
+
+# Données brutes shotgun (trop volumineuses)
+data/shotgun/raw/*.fastq.gz
+data/shotgun/raw/*.fastq
+
+# Données comparatives brutes
+data/comparative/raw/*.fastq.gz
+data/comparative/raw/*.fastq
 
 # Artefacts QIIME2 (trop volumineux)
-data/qiime2_artifacts/*.qza
-data/qiime2_artifacts/*.qzv
+data/16S/qiime2_artifacts/*.qza
+data/16S/qiime2_artifacts/*.qzv
 
 # Fichiers temporaires Python
 __pycache__/

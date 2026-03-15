@@ -1,4 +1,4 @@
-# Microbiote intestinal de référence — Burkina Faso 🇧🇫
+# Gut Microbiome Reference — Burkina Faso 🇧🇫
 
 ## Description
 Ce projet vise à établir une base de référence du microbiote intestinal
@@ -12,13 +12,14 @@ métagénomiques publiques (16S rRNA et shotgun).
 ## Données utilisées
 
 ### Données disponibles
-| Étude | Accession | Type | Échantillons BF | Statut |
-|-------|-----------|------|-----------------|--------|
+| Étude | Accession | Type | Population BF | Statut |
+|-------|-----------|------|---------------|--------|
 | De Filippo et al. 2010 | ERP000133 (ENA) | 16S V5-V6 | 14 enfants | ✅ Importées |
+| Sonnenburg et al. 2021 | PRJNA690543 (NCBI) | Shotgun | 90 adultes | 🔜 En cours de téléchargement |
 
 ### Données en cours d'acquisition
-| Étude | Accession | Type | Échantillons BF | Statut |
-|-------|-----------|------|-----------------|--------|
+| Étude | Accession | Type | Population BF | Statut |
+|-------|-----------|------|---------------|--------|
 | AWI-Gen 2 | EGAD00001015449 (EGA) | Shotgun | 384 adultes | 🔜 Demande soumise — en attente de réponse |
 
 ### Données comparatives (à identifier)
@@ -37,48 +38,83 @@ métagénomiques publiques (16S rRNA et shotgun).
 
 ### 1. Cloner le dépôt
 ```bash
-git clone https://github.com/M922-tech/bf-microbiome-reference.git
-cd bf-microbiome-reference
+git clone https://github.com/M922-tech/gut-microbiome-reference.git
+cd gut-microbiome-reference
 ```
 
-### 2. Télécharger les données De Filippo 2010
+### 2. Télécharger les données De Filippo 2010 (16S)
 ```bash
-# Les 14 accessions BF sont listées dans data/metadata/BF_accessions.txt
 while read acc; do
-    wget "ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR011/${acc}/${acc}.fastq.gz"
-done < data/metadata/BF_accessions.txt
+    wget "ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR011/${acc}/${acc}.fastq.gz" \
+    -P data/16S/raw/
+done < data/16S/metadata/BF_accessions.txt
 ```
 
-### 3. Lancer l'environnement QIIME2
+### 3. Télécharger les données PRJNA690543 (Shotgun)
+```bash
+# Liste des accessions dans data/shotgun/metadata/
+while read acc; do
+    wget "ftp://ftp.sra.ebi.ac.uk/vol1/fastq/.../${acc}.fastq.gz" \
+    -P data/shotgun/raw/
+done < data/shotgun/metadata/PRJNA690543_accessions.txt
+```
+
+### 4. Lancer l'environnement QIIME2 (Pipeline 16S)
 ```bash
 docker run -it \
-  -v ~/bf_deFilippo_project:/data \
+  -v ~/gut-microbiome-reference:/data \
   quay.io/qiime2/amplicon:2025.10 bash
 ```
 
-## Pipeline
+## Pipelines
 
+### Pipeline 1 — 16S rRNA (QIIME2)
 | Étape | Outil | Statut |
 |-------|-------|--------|
-| Import données De Filippo | QIIME2 | ✅ Terminé |
+| Import données | QIIME2 | ✅ Terminé |
 | Contrôle qualité | QIIME2/DADA2 | 🔜 En cours |
 | Profilage taxonomique | DADA2 | ⏳ À venir |
 | Profilage fonctionnel | PICRUSt2 | ⏳ À venir |
-| Analyse comparative | R/Phyloseq | ⏳ À venir |
+
+### Pipeline 2 — Shotgun métagénomique (HUMAnN3)
+| Étape | Outil | Statut |
+|-------|-------|--------|
+| Import données PRJNA690543 | HUMAnN3 | 🔜 En cours |
+| Import données AWI-Gen 2 | HUMAnN3 | ⏳ En attente EGA |
+| Profilage taxonomique | MetaPhlAn4 | ⏳ À venir |
+| Profilage fonctionnel | HUMAnN3 | ⏳ À venir |
+
+### Pipeline 3 — Analyse comparative (R/Phyloseq)
+| Étape | Outil | Statut |
+|-------|-------|--------|
+| Intégration des résultats | R | ⏳ À venir |
+| Diversité alpha/bêta | Phyloseq | ⏳ À venir |
+| Analyses statistiques | PERMANOVA/ANCOM-BC | ⏳ À venir |
 | Associations maladies | SparCC/SPIEC-EASI | ⏳ À venir |
 
 ## Structure du projet
 ```
-bf_deFilippo_project/
+gut-microbiome-reference/
 ├── data/
-│   ├── metadata/     # manifest.tsv, metadata.tsv, accessions
-│   └── raw/          # FASTQ bruts (non versionnés)
-├── scripts/          # Scripts du pipeline
-├── notebooks/        # Analyses documentées
-├── results/          # Figures et tableaux
-│   ├── figures/
-│   └── tables/
-└── envs/             # Environnement logiciel
+│   ├── 16S/                  # De Filippo 2010
+│   │   ├── raw/              # FASTQ bruts (non versionnés)
+│   │   ├── metadata/         # manifest.tsv, metadata.tsv
+│   │   └── qiime2_artifacts/ # Artefacts QIIME2 (non versionnés)
+│   ├── shotgun/              # PRJNA690543 + AWI-Gen 2
+│   │   ├── raw/              # FASTQ bruts (non versionnés)
+│   │   └── metadata/         # Accessions et métadonnées
+│   └── comparative/          # Données comparatives
+│       ├── raw/              # FASTQ bruts (non versionnés)
+│       └── metadata/
+├── scripts/
+│   ├── pipeline1_16S/        # Scripts QIIME2/DADA2/PICRUSt2
+│   ├── pipeline2_shotgun/    # Scripts HUMAnN3/MetaPhlAn4
+│   └── pipeline3_comparative/# Scripts R/Phyloseq
+├── notebooks/                # Analyses documentées
+├── results/
+│   ├── figures/              # Graphiques
+│   └── tables/               # Tableaux de résultats
+└── envs/                     # Environnement logiciel
 ```
 
 ## Auteur

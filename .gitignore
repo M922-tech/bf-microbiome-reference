@@ -29,3 +29,9 @@ __pycache__/
 
 # Logs
 *.log
+
+# Artefacts diversité QIIME2
+data/16S/qiime2_artifacts/diversity/*.qza
+data/16S/qiime2_artifacts/diversity/*.qzv
+data/16S/qiime2_artifacts/*.qza
+data/16S/qiime2_artifacts/*.qzv

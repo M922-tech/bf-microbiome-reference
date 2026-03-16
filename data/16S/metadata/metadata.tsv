@@ -1,15 +1,15 @@
-sample-id	country	group	age_group
-10BF	Burkina_Faso	BF	child
-11BF	Burkina_Faso	BF	child
-12BF	Burkina_Faso	BF	child
-13BF	Burkina_Faso	BF	child
-15BF	Burkina_Faso	BF	child
-16BF	Burkina_Faso	BF	child
-17BF	Burkina_Faso	BF	child
-2BF	Burkina_Faso	BF	child
-3BF	Burkina_Faso	BF	child
-4BF	Burkina_Faso	BF	child
-6BF	Burkina_Faso	BF	child
-7BF	Burkina_Faso	BF	child
-8BF	Burkina_Faso	BF	child
-9BF	Burkina_Faso	BF	child
+sample-id	country	group	age_group	sequencing_tech	study	dada2_quality
+10BF	Burkina_Faso	BF	child	454_pyrosequencing	De_Filippo_2010	acceptable
+11BF	Burkina_Faso	BF	child	454_pyrosequencing	De_Filippo_2010	good
+12BF	Burkina_Faso	BF	child	454_pyrosequencing	De_Filippo_2010	good
+13BF	Burkina_Faso	BF	child	454_pyrosequencing	De_Filippo_2010	good
+15BF	Burkina_Faso	BF	child	454_pyrosequencing	De_Filippo_2010	good
+16BF	Burkina_Faso	BF	child	454_pyrosequencing	De_Filippo_2010	good
+17BF	Burkina_Faso	BF	child	454_pyrosequencing	De_Filippo_2010	good
+2BF	Burkina_Faso	BF	child	454_pyrosequencing	De_Filippo_2010	good
+3BF	Burkina_Faso	BF	child	454_pyrosequencing	De_Filippo_2010	good
+4BF	Burkina_Faso	BF	child	454_pyrosequencing	De_Filippo_2010	good
+6BF	Burkina_Faso	BF	child	454_pyrosequencing	De_Filippo_2010	good
+7BF	Burkina_Faso	BF	child	454_pyrosequencing	De_Filippo_2010	good
+8BF	Burkina_Faso	BF	child	454_pyrosequencing	De_Filippo_2010	good
+9BF	Burkina_Faso	BF	child	454_pyrosequencing	De_Filippo_2010	acceptable

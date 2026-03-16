@@ -88,7 +88,7 @@ docker run -it \
 | Étape | Outil | Statut |
 |-------|-------|--------|
 | Intégration des résultats | R | ⏳ À venir |
-| Diversité alpha/bêta | Phyloseq | ⏳ À venir |
+| Diversité alpha/bêta | Phyloseq | ✅ Terminé |
 | Analyses statistiques | PERMANOVA/ANCOM-BC | ⏳ À venir |
 | Associations maladies | SparCC/SPIEC-EASI | ⏳ À venir |
 

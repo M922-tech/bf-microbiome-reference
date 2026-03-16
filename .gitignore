@@ -35,3 +35,16 @@ data/16S/qiime2_artifacts/diversity/*.qza
 data/16S/qiime2_artifacts/diversity/*.qzv
 data/16S/qiime2_artifacts/*.qza
 data/16S/qiime2_artifacts/*.qzv
+
+# Fichiers intermédiaires PICRUSt2
+data/16S/picrust2/picrust2_output/intermediate/
+data/16S/picrust2/picrust2_output/*.tre
+data/16S/picrust2/picrust2_output/*.tsv.gz
+data/16S/picrust2/picrust2_output/EC_metagenome_out/
+data/16S/picrust2/picrust2_output/KO_metagenome_out/
+data/16S/picrust2/rep_seqs_export/
+data/16S/picrust2/table_export/
+
+# Fichiers logs
+wget-log
+*.log

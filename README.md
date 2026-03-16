@@ -72,8 +72,8 @@ docker run -it \
 | Étape | Outil | Statut |
 |-------|-------|--------|
 | Import données | QIIME2 | ✅ Terminé |
-| Contrôle qualité | QIIME2/DADA2 | 🔜 En cours |
-| Profilage taxonomique | DADA2 | ⏳ À venir |
+| Contrôle qualité | QIIME2/DADA2 | ✅ Terminé |
+| Profilage taxonomique | DADA2 | ✅ Terminé |
 | Profilage fonctionnel | PICRUSt2 | ⏳ À venir |
 
 ### Pipeline 2 — Shotgun métagénomique (HUMAnN3)

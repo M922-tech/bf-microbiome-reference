@@ -15,11 +15,20 @@ echo "=== Téléchargement des 90 échantillons shotgun Burkina Faso ==="
 echo "=== 180 fichiers FASTQ (R1 + R2) — ~180 Go au total ==="
 
 while read url; do
-    echo "⬇️  Téléchargement de $(basename $url)..."
+    filename=$(basename $url)
+    
+    # Vérifier si le fichier existe déjà et est complet
+    if [ -f "${OUTPUT_DIR}/${filename}" ]; then
+        echo "⏭️  $filename déjà téléchargé — ignoré"
+        continue
+    fi
+    
+    echo "⬇️  Téléchargement de $filename..."
     wget -q --show-progress \
+      -c \
       "ftp://${url}" \
       -P ${OUTPUT_DIR}
-    echo "✅ $(basename $url) terminé"
+    echo "✅ $filename terminé"
 done < ${FTP_LINKS}
 
 echo "=== Téléchargement terminé ==="

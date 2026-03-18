@@ -1,0 +1,13 @@
+SRR13378548_1.fastq.gz
+SRR13378550_2.fastq.gz
+SRR13378553_2.fastq.gz
+SRR13378557_1.fastq.gz
+SRR13378561_1.fastq.gz
+SRR13378562_1.fastq.gz
+SRR13378567_1.fastq.gz
+SRR13378570_1.fastq.gz
+SRR13378578_1.fastq.gz
+SRR13378580_1.fastq.gz
+SRR13378623_1.fastq.gz
+SRR13378625_2.fastq.gz
+SRR13378630_2.fastq.gz

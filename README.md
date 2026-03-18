@@ -15,7 +15,7 @@ métagénomiques publiques (16S rRNA et shotgun).
 | Étude | Accession | Type | Population BF | Statut |
 |-------|-----------|------|---------------|--------|
 | De Filippo et al. 2010 | ERP000133 (ENA) | 16S V5-V6 | 14 enfants | ✅ Importées |
-| Sonnenburg et al. 2021 | PRJNA690543 (NCBI) | Shotgun | 90 adultes | 🔜 En cours de téléchargement |
+| Sonnenburg et al. 2021 | PRJNA690543 (NCBI) | Shotgun | 90 adultes | ✅ Téléchargé et vérifié (294 Go) |
 
 ### Données en cours d'acquisition
 | Étude | Accession | Type | Population BF | Statut |
@@ -79,7 +79,7 @@ docker run -it \
 ### Pipeline 2 — Shotgun métagénomique (HUMAnN3)
 | Étape | Outil | Statut |
 |-------|-------|--------|
-| Import données PRJNA690543 | HUMAnN3 | 🔜 En cours |
+| Import données PRJNA690543 | HUMAnN3 | ✅ Données prêtes |
 | Import données AWI-Gen 2 | HUMAnN3 | ⏳ En attente EGA |
 | Profilage taxonomique | MetaPhlAn4 | ⏳ À venir |
 | Profilage fonctionnel | HUMAnN3 | ⏳ À venir |

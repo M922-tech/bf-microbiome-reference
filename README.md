@@ -20,7 +20,8 @@ métagénomiques publiques (16S rRNA et shotgun).
 ### Données en cours d'acquisition
 | Étude | Accession | Type | Population BF | Statut |
 |-------|-----------|------|---------------|--------|
-| AWI-Gen 2 | EGAD00001015449 (EGA) | Shotgun | 384 adultes | 🔜 Demande soumise — en attente de réponse |
+| AWI-Gen 2 | EGAD00001015449 (EGA) | Shotgun | 384 adultes | ❌ Abandonné — données accessibles via PRJNA1157371 |
+| AWI-Gen 2 (Nanoro BF) | PRJNA1157371 (NCBI) | Shotgun | 384 femmes adultes | 🔜 Téléchargement en cours |
 
 ### Données comparatives (à identifier)
 | Population | Source | Type | Statut |
@@ -80,7 +81,7 @@ docker run -it \
 | Étape | Outil | Statut |
 |-------|-------|--------|
 | Import données PRJNA690543 | HUMAnN3 | ✅ Données prêtes |
-| Import données AWI-Gen 2 | HUMAnN3 | ⏳ En attente EGA |
+| Import données AWI-Gen 2 | HUMAnN3 | 🔜 Téléchargement PRJNA1157371 en cours |
 | Profilage taxonomique | MetaPhlAn4 | ⏳ À venir |
 | Profilage fonctionnel | HUMAnN3 | ⏳ À venir |
 

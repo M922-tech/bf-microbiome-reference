@@ -48,3 +48,8 @@ data/16S/picrust2/table_export/
 # Fichiers logs
 wget-log
 *.log
+
+# Liens symboliques et fichiers temporaires shotgun
+data/shotgun/fastq_bf
+data/shotgun/metadata/links_bf.txt
+data/shotgun/metadata/AWIGen_sizes.tsv

@@ -53,3 +53,4 @@ wget-log
 data/shotgun/fastq_bf
 data/shotgun/metadata/links_bf.txt
 data/shotgun/metadata/AWIGen_sizes.tsv
+wget-log

@@ -21,7 +21,7 @@ métagénomiques publiques (16S rRNA et shotgun).
 | Étude | Accession | Type | Population BF | Statut |
 |-------|-----------|------|---------------|--------|
 | AWI-Gen 2 | EGAD00001015449 (EGA) | Shotgun | 384 adultes | ❌ Abandonné — données accessibles via PRJNA1157371 |
-| AWI-Gen 2 (Nanoro BF) | PRJNA1157371 (NCBI) | Shotgun | 384 femmes adultes | 🔜 Téléchargement en cours |
+| AWI-Gen 2 (Nanoro BF) | PRJNA1157371 (NCBI) | Shotgun | 384 femmes adultes | ✅ Téléchargé (HIKVISION SSD) |
 
 ### Données comparatives (à identifier)
 | Population | Source | Type | Statut |
@@ -51,13 +51,17 @@ while read acc; do
 done < data/16S/metadata/BF_accessions.txt
 ```
 
-### 3. Télécharger les données PRJNA690543 (Shotgun)
+### 3. Télécharger les données PRJNA690543 (Shotgun — disque interne)
 ```bash
 # Liste des accessions dans data/shotgun/metadata/
 while read acc; do
     wget "ftp://ftp.sra.ebi.ac.uk/vol1/fastq/.../${acc}.fastq.gz" \
     -P data/shotgun/raw/
 done < data/shotgun/metadata/PRJNA690543_accessions.txt
+### 4. Télécharger les données AWI-Gen 2 BF (Shotgun — SSD HIKVISION)
+# Liens FTP dans ~/links_final_bf.txt
+# Stockage : /media/marius/HIKVISION/
+bash scripts/pipeline2_shotgun/03_download_awigen2_BF.sh
 ```
 
 ### 4. Lancer l'environnement QIIME2 (Pipeline 16S)
@@ -81,7 +85,7 @@ docker run -it \
 | Étape | Outil | Statut |
 |-------|-------|--------|
 | Import données PRJNA690543 | HUMAnN3 | ✅ Données prêtes |
-| Import données AWI-Gen 2 | HUMAnN3 | 🔜 Téléchargement PRJNA1157371 en cours |
+| Import données AWI-Gen 2 | HUMAnN3 | ✅ Données prêtes |
 | Profilage taxonomique | MetaPhlAn4 | ⏳ À venir |
 | Profilage fonctionnel | HUMAnN3 | ⏳ À venir |
 
@@ -101,7 +105,10 @@ gut-microbiome-reference/
 │   │   ├── raw/              # FASTQ bruts (non versionnés)
 │   │   ├── metadata/         # manifest.tsv, metadata.tsv
 │   │   └── qiime2_artifacts/ # Artefacts QIIME2 (non versionnés)
-│   ├── shotgun/              # PRJNA690543 + AWI-Gen 2
+│   ├── shotgun/
+│   │   ├── raw/          # PRJNA690543 (180 FASTQ, disque interne)
+│   │   ├── PRJNA690543/  # lien → raw/
+│   │   └── PRJNA1157371/ # lien → HIKVISION SSD (768 FASTQ AWI-Gen 2 BF)
 │   │   ├── raw/              # FASTQ bruts (non versionnés)
 │   │   └── metadata/         # Accessions et métadonnées
 │   └── comparative/          # Données comparatives

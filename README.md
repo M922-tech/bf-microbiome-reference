@@ -1,130 +1,88 @@
-# Gut Microbiome Reference — Burkina Faso 🇧🇫
+# Microbiote Intestinal de Référence — Burkina Faso
 
-## Description
-Ce projet vise à établir une base de référence du microbiote intestinal
-burkinabè sur le plan taxonomique et fonctionnel, à partir de données
-métagénomiques publiques (16S rRNA et shotgun).
+**Étudiant :** Marius Zida | **Master Microbiologie**
+**Directeurs :** Dr. Yves Sere & Nina Gouba
+**GitHub :** github.com/M922-tech/bf-microbiome-reference
 
-**Étudiant :** Marius Zida  
-**Directeurs :** Dr. Yves Sere & Nina Gouba  
-**Programme :** Master en Microbiologie — 2025  
+---
 
-## Données utilisées
+## Objectif
+Construire un microbiome intestinal de référence pour le Burkina Faso
+à partir de données métagénomiques publiques.
 
-### Données disponibles
-| Étude | Accession | Type | Population BF | Statut |
-|-------|-----------|------|---------------|--------|
-| De Filippo et al. 2010 | ERP000133 (ENA) | 16S V5-V6 | 14 enfants | ✅ Importées |
-| Sonnenburg et al. 2021 | PRJNA690543 (NCBI) | Shotgun | 90 adultes | ✅ Téléchargé et vérifié (294 Go) |
+---
 
-### Données en cours d'acquisition
-| Étude | Accession | Type | Population BF | Statut |
-|-------|-----------|------|---------------|--------|
-| AWI-Gen 2 | EGAD00001015449 (EGA) | Shotgun | 384 adultes | ❌ Abandonné — données accessibles via PRJNA1157371 |
-| AWI-Gen 2 (Nanoro BF) | PRJNA1157371 (NCBI) | Shotgun | 384 femmes adultes | ✅ Téléchargé (HIKVISION SSD) |
+## Datasets
 
-### Données comparatives (à identifier)
-| Population | Source | Type | Statut |
-|------------|--------|------|--------|
-| Autres populations africaines | MGnify/GMrepo | 16S/Shotgun | ⏳ À identifier |
-| Populations internationales | MGnify/GMrepo | 16S/Shotgun | ⏳ À identifier |
+| Dataset | Accession | Type | Échantillons | Statut |
+|---|---|---|---|---|
+| De Filippo 2010 | ERP000133 | 16S rRNA | 14 enfants BF | ✅ Pipeline 1 complet |
+| Sonnenburg 2021 | PRJNA690543 | Shotgun | 90 adultes BF | ✅ Décontaminé |
+| AWI-Gen 2 BF | PRJNA1157371 | Shotgun | 384 femmes Nanoro | ✅ Décontaminé |
 
-## Prérequis
-- Docker installé
-- Image QIIME2 : quay.io/qiime2/amplicon:2025.10
-- HUMAnN3 installé (v3.9)
-- Git
+---
 
-## Installation et lancement
+## Pipeline 1 — 16S rRNA ✅ TERMINÉ
 
-### 1. Cloner le dépôt
-```bash
-git clone https://github.com/M922-tech/gut-microbiome-reference.git
-cd gut-microbiome-reference
-```
+| Étape | Outil | Résultat |
+|---|---|---|
+| Import | QIIME2 | demux_seqs.qza |
+| Débruitage | DADA2 | trunc=250, max-ee=3.0, 65.3% conservés |
+| Taxonomie | Silva 138 | Bacteroidota dominant, Prevotella abondant |
+| Diversité | QIIME2 | sampling-depth=6847 |
+| Fonctions | PICRUSt2 2.6.3 | Glycolyse anaérobie active |
 
-### 2. Télécharger les données De Filippo 2010 (16S)
-```bash
-while read acc; do
-    wget "ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR011/${acc}/${acc}.fastq.gz" \
-    -P data/16S/raw/
-done < data/16S/metadata/BF_accessions.txt
-```
+---
 
-### 3. Télécharger les données PRJNA690543 (Shotgun — disque interne)
-```bash
-# Liste des accessions dans data/shotgun/metadata/
-while read acc; do
-    wget "ftp://ftp.sra.ebi.ac.uk/vol1/fastq/.../${acc}.fastq.gz" \
-    -P data/shotgun/raw/
-done < data/shotgun/metadata/PRJNA690543_accessions.txt
-### 4. Télécharger les données AWI-Gen 2 BF (Shotgun — SSD HIKVISION)
-# Liens FTP dans ~/links_final_bf.txt
-# Stockage : /media/marius/HIKVISION/
-bash scripts/pipeline2_shotgun/03_download_awigen2_BF.sh
-```
+## Pipeline 2 — Shotgun métagénomique
 
-### 4. Lancer l'environnement QIIME2 (Pipeline 16S)
-```bash
-docker run -it \
-  -v ~/gut-microbiome-reference:/data \
-  quay.io/qiime2/amplicon:2025.10 bash
-```
+### État d'avancement
 
-## Pipelines
+| Étape | PRJNA690543 | PRJNA1157371 |
+|---|---|---|
+| QC FastQC + MultiQC | ✅ | ✅ 769 rapports |
+| Trimming (Fastp) | ✅ | ✅ |
+| Décontamination (Bowtie2 hg38) | ✅ 180/180 | ✅ 768/768 |
+| MetaPhlAn4 | 🔜 | 🔜 |
+| HUMAnN3 | 🔜 | 🔜 |
 
-### Pipeline 1 — 16S rRNA (QIIME2)
-| Étape | Outil | Statut |
-|-------|-------|--------|
-| Import données | QIIME2 | ✅ Terminé |
-| Contrôle qualité | QIIME2/DADA2 | ✅ Terminé |
-| Profilage taxonomique | DADA2 | ✅ Terminé |
-| Profilage fonctionnel | PICRUSt2 | ✅ Terminé |
+### Paramètres trimming retenus après analyse MultiQC
 
-### Pipeline 2 — Shotgun métagénomique (HUMAnN3)
-| Étape | Outil | Statut |
-|-------|-------|--------|
-| Import données PRJNA690543 | HUMAnN3 | ✅ Données prêtes |
-| Import données AWI-Gen 2 | HUMAnN3 | ✅ Données prêtes |
-| Profilage taxonomique | MetaPhlAn4 | ⏳ À venir |
-| Profilage fonctionnel | HUMAnN3 | ⏳ À venir |
+**PRJNA690543** (Phred > 35 dès position 1 — pas de dégradation) :
+\`\`\`
+--qualified_quality_phred 20
+--unqualified_percent_limit 40
+--length_required 50
+--detect_adapter_for_pe
+--correction
+\`\`\`
 
-### Pipeline 3 — Analyse comparative (R/Phyloseq)
-| Étape | Outil | Statut |
-|-------|-------|--------|
-| Intégration des résultats | R | ⏳ À venir |
-| Diversité alpha/bêta | Phyloseq | ✅ Terminé |
-| Analyses statistiques | PERMANOVA/ANCOM-BC | ⏳ À venir |
-| Associations maladies | SparCC/SPIEC-EASI | ⏳ À venir |
+**PRJNA1157371** (Orange positions 0-20 — biais amorçage) :
+\`\`\`
+--qualified_quality_phred 20
+--unqualified_percent_limit 40
+--length_required 50
+--trim_front1 20
+--trim_front2 20
+--detect_adapter_for_pe
+--correction
+\`\`\`
 
-## Structure du projet
-```
-gut-microbiome-reference/
-├── data/
-│   ├── 16S/                  # De Filippo 2010
-│   │   ├── raw/              # FASTQ bruts (non versionnés)
-│   │   ├── metadata/         # manifest.tsv, metadata.tsv
-│   │   └── qiime2_artifacts/ # Artefacts QIIME2 (non versionnés)
-│   ├── shotgun/
-│   │   ├── raw/          # PRJNA690543 (180 FASTQ, disque interne)
-│   │   ├── PRJNA690543/  # lien → raw/
-│   │   └── PRJNA1157371/ # lien → HIKVISION SSD (768 FASTQ AWI-Gen 2 BF)
-│   │   ├── raw/              # FASTQ bruts (non versionnés)
-│   │   └── metadata/         # Accessions et métadonnées
-│   └── comparative/          # Données comparatives
-│       ├── raw/              # FASTQ bruts (non versionnés)
-│       └── metadata/
-├── scripts/
-│   ├── pipeline1_16S/        # Scripts QIIME2/DADA2/PICRUSt2
-│   ├── pipeline2_shotgun/    # Scripts HUMAnN3/MetaPhlAn4
-│   └── pipeline3_comparative/# Scripts R/Phyloseq
-├── notebooks/                # Analyses documentées
-├── results/
-│   ├── figures/              # Graphiques
-│   └── tables/               # Tableaux de résultats
-└── envs/                     # Environnement logiciel
-```
+---
 
-## Auteur
-**Marius Zida** — mariuszida430@gmail.com  
-Master Microbiologie, Burkina Faso
+## Stockage
+
+| Disque | Contenu |
+|---|---|
+| 💻 Disque interne (~191 Go dispo) | Projet, scripts, résultats QC |
+| 💾 SSD HIKVISION | Bruts PRJNA1157371 (768 FASTQ, 833 Go) |
+| 💾 EXTERNAL_USB1 (1.9 To) | Décontaminés PRJNA690543 + PRJNA1157371 |
+
+---
+
+## Prochaines étapes
+- [ ] Installation base de données MetaPhlAn4
+- [ ] MetaPhlAn4 PRJNA690543 + PRJNA1157371
+- [ ] HUMAnN3 PRJNA690543 + PRJNA1157371
+- [ ] Harmonisation métadonnées + correction effets batch (MMUPHin)
+- [ ] Analyses R (diversité, statistiques, figures)

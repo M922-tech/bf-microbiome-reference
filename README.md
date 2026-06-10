@@ -17,8 +17,8 @@ Construire un microbiome intestinal de référence pour le Burkina Faso
 | Dataset | Accession | Type | Échantillons | Statut |
 |---|---|---|---|---|
 | De Filippo 2010 | ERP000133 | 16S rRNA | 14 enfants BF | ✅ Pipeline 1 complet |
-| Sonnenburg 2021 | PRJNA690543 | Shotgun | 90 adultes BF | ✅ Décontaminé |
-| AWI-Gen 2 BF | PRJNA1157371 | Shotgun | 384 femmes Nanoro | ✅ Décontaminé |
+| Sonnenburg 2021 | PRJNA690543 | Shotgun | 90 adultes BF | ✅ Pipeline 2 complet |
+| AWI-Gen 2 BF | PRJNA1157371 | Shotgun | 384 femmes Nanoro | ✅ Pipeline 2 complet |
 
 ---
 
@@ -27,14 +27,14 @@ Construire un microbiome intestinal de référence pour le Burkina Faso
 | Étape | Outil | Résultat |
 |---|---|---|
 | Import | QIIME2 | demux_seqs.qza |
-| Débruitage | DADA2 | trunc=250, max-ee=3.0, 65.3% conservés |
+| Débruitage | DADA2 | trunc=250, max-ee=3.0, ~65% conservés |
 | Taxonomie | Silva 138 | Bacteroidota dominant, Prevotella abondant |
 | Diversité | QIIME2 | sampling-depth=6847 |
 | Fonctions | PICRUSt2 2.6.3 | Glycolyse anaérobie active |
 
 ---
 
-## Pipeline 2 — Shotgun métagénomique
+## Pipeline 2 — Shotgun métagénomique ✅ TERMINÉ
 
 ### État d'avancement
 
@@ -43,12 +43,12 @@ Construire un microbiome intestinal de référence pour le Burkina Faso
 | QC FastQC + MultiQC | ✅ | ✅ 769 rapports |
 | Trimming (Fastp) | ✅ | ✅ |
 | Décontamination (Bowtie2 hg38) | ✅ 180/180 | ✅ 768/768 |
-| MetaPhlAn4 | 🔜 | 🔜 |
+| MetaPhlAn4 | ✅ 90/90 profils | ✅ 384/384 profils |
 | HUMAnN3 | 🔜 | 🔜 |
 
-### Paramètres trimming retenus après analyse MultiQC
+### Paramètres trimming
 
-**PRJNA690543** (Phred > 35 dès position 1 — pas de dégradation) :
+**PRJNA690543** (Phred > 35 dès position 1) :
 \`\`\`
 --qualified_quality_phred 20
 --unqualified_percent_limit 40
@@ -57,7 +57,7 @@ Construire un microbiome intestinal de référence pour le Burkina Faso
 --correction
 \`\`\`
 
-**PRJNA1157371** (Orange positions 0-20 — biais amorçage) :
+**PRJNA1157371** (dégradation positions 0-20) :
 \`\`\`
 --qualified_quality_phred 20
 --unqualified_percent_limit 40
@@ -68,21 +68,46 @@ Construire un microbiome intestinal de référence pour le Burkina Faso
 --correction
 \`\`\`
 
+### Paramètres MetaPhlAn4
+\`\`\`
+--index mpa_vJan25_CHOCOPhlAnSGB_202503
+--subsampling 5000000
+--subsampling_seed 42
+\`\`\`
+> Sous-échantillonnage validé par corrélation de Pearson = 0.9996 vs profils complets
+
+### Résultats préliminaires MetaPhlAn4
+- **Bacteroidota dominant** (~59-73%) ✅ cohérent avec Pipeline 1 (16S)
+- **Firmicutes** (~6-25%)
+- **Archaea** (~0.3%) détectés
+- Ratio Bacteroidota/Firmicutes élevé — typique microbiome africain
+
+---
+
+## QC Global
+
+| Rapport | Contenu |
+|---|---|
+| `results/qc_global/BF_microbiome_multiqc_report.html` | 962 FastQC + 433 Fastp = 1395 rapports |
+| Total reads | 16.5 milliards |
+| Moyenne/échantillon | 17.1 millions reads |
+| GC moyen | 47.8% |
+
 ---
 
 ## Stockage
 
 | Disque | Contenu |
 |---|---|
-| 💻 Disque interne (~191 Go dispo) | Projet, scripts, résultats QC |
+| 💻 Disque interne | Scripts, référence hg38, MetaPhlAn DB |
 | 💾 SSD HIKVISION | Bruts PRJNA1157371 (768 FASTQ, 833 Go) |
-| 💾 EXTERNAL_USB1 (1.9 To) | Décontaminés PRJNA690543 + PRJNA1157371 |
+| 💾 EXTERNAL_USB | Décontaminés + Profils MetaPhlAn4 |
 
 ---
 
 ## Prochaines étapes
-- [ ] Installation base de données MetaPhlAn4
-- [ ] MetaPhlAn4 PRJNA690543 + PRJNA1157371
 - [ ] HUMAnN3 PRJNA690543 + PRJNA1157371
-- [ ] Harmonisation métadonnées + correction effets batch (MMUPHin)
-- [ ] Analyses R (diversité, statistiques, figures)
+- [ ] Harmonisation R/phyloseq (16S + Shotgun)
+- [ ] Correction batch effect (ComBat_seq)
+- [ ] Analyses statistiques + figures
+- [ ] Push GitHub final

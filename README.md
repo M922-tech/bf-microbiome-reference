@@ -111,3 +111,38 @@ Construire un microbiome intestinal de référence pour le Burkina Faso
 - [ ] Correction batch effect (ComBat_seq)
 - [ ] Analyses statistiques + figures
 - [ ] Push GitHub final
+
+## Harmonisation 16S + Shotgun — Juin 2026
+
+### Environnement R
+- R 4.5.3 via conda (r_microbiome)
+- phyloseq, MMUPHin, DESeq2, vegan, ggplot2, limma, tidyverse
+
+### Stratégie d'harmonisation
+- Agrégation au niveau genre pour les 3 datasets
+- 44 genres communs aux 3 datasets
+- 111 genres dans la fusion finale (intersection)
+- Genres non caractérisés (GGB/SGB) sauvegardés séparément
+
+### Résultats
+| Étape | Résultat |
+|---|---|
+| 16S agrégé | 111 genres × 14 échantillons |
+| Shotgun PRJNA690543 | 166 genres × 90 échantillons |
+| Shotgun PRJNA1157371 | 245 genres × 384 échantillons |
+| Fusion totale | 111 genres × 488 échantillons |
+| Correction batch MMUPHin | 44 features ajustés |
+
+### Fichiers produits
+- `physeq_corrected.rds` — objet phyloseq corrigé
+- `physeq_all_merged.rds` — objet phyloseq non corrigé
+- `otu_corrected.tsv` — matrice abondances corrigées
+- `PRJNA690543_genres_non_caracterises.tsv`
+- `PRJNA1157371_genres_non_caracterises.tsv`
+
+### Prochaines étapes
+- [ ] Analyses diversité alpha (Shannon, Simpson)
+- [ ] Analyses diversité beta (PCoA, Bray-Curtis)
+- [ ] Espèces différentiellement abondantes (DESeq2)
+- [ ] Figures publication
+- [ ] HUMAnN3 (voies métaboliques)

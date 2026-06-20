@@ -146,3 +146,37 @@ Construire un microbiome intestinal de référence pour le Burkina Faso
 - [ ] Espèces différentiellement abondantes (DESeq2)
 - [ ] Figures publication
 - [ ] HUMAnN3 (voies métaboliques)
+
+## Fusion résultats AMR — Juin 2026
+
+### Méthode
+Script Python (`scripts/pipeline2_shotgun/08_merge_amr_results.py`) fusionnant tous les `.gene_mapping_data.txt` par dataset puis globalement :
+- Agrégation des reads mappés par ARO Term (gène AMR)
+- Table de comptes bruts + table de proportions relatives (par échantillon, sur total reads mappés CARD)
+- Table d'annotations (AMR Gene Family, Drug Class, Resistance Mechanism)
+
+### Résultats — Fusion globale
+| Métrique | Valeur |
+|---|---|
+| Gènes AMR uniques (union) | 1799 |
+| Échantillons | 474 (90 PRJNA690543 + 384 PRJNA1157371) |
+
+### Classes d'antibiotiques dominantes (par fréquence de gènes)
+1. Céphalosporines / pénicillines bêta-lactamines (combinées) — dominance nette
+2. Monobactam / céphalosporine / pénicilline (multi-classe)
+3. Aminoglycosides
+4. Fluoroquinolones
+5. Tétracyclines
+6. Peptides antibiotiques
+7. Glycopeptides (clusters van)
+
+### Fichiers produits (par dataset + fusion globale)
+- `*_AMR_counts.tsv` — reads mappés bruts (gènes × échantillons)
+- `*_AMR_proportions.tsv` — abondances relatives (gènes × échantillons)
+- `*_AMR_annotations.tsv` — Gene Family / Drug Class / Resistance Mechanism par gène
+- Stockés sur HIKVISION (`results/AMR/`) et dupliqués sur EXTERNAL_USB3 (`results/AMR_merged/`)
+
+### Prochaines étapes
+- [ ] Analyses statistiques AMR (diversité, comparaison inter-datasets, associations avec métadonnées)
+- [ ] Visualisations (heatmap RGI ou ggplot2)
+- [ ] HUMAnN3 (voies métaboliques)

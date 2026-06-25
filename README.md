@@ -180,3 +180,39 @@ Script Python (`scripts/pipeline2_shotgun/08_merge_amr_results.py`) fusionnant t
 - [ ] Analyses statistiques AMR (diversité, comparaison inter-datasets, associations avec métadonnées)
 - [ ] Visualisations (heatmap RGI ou ggplot2)
 - [ ] HUMAnN3 (voies métaboliques)
+
+## Profilage fonctionnel 16S — PICRUSt2 — Juin 2026
+
+### Outil
+PICRUSt2 2.6.3 — prédiction fonctionnelle par placement phylogénétique
+
+### Méthode
+- Placement des 818 ASVs sur arbre de référence (epa-ng)
+- 814/818 ASVs retenus (4 exclus — mauvais alignement)
+- Méthode HSP : Maximum Parsimony (mp)
+- Stratifié par espèce (--stratified)
+
+### Résultats
+| Fichier | Contenu |
+|---|---|
+| EC_metagenome_out/ | Enzymes prédites (EC) × 14 échantillons |
+| KO_metagenome_out/ | KEGG Orthology × 14 échantillons |
+| pathways_out/ | Voies MetaCyc × 14 échantillons |
+
+### Top voies dominantes
+1. PWY0-1586 : Fatty acid unsaturation (anaérobie)
+2. PWY-7357  : Biosynthèse thiamine (B1)
+3. PWY-7238  : Sucrose biosynthesis II
+4. PWY-1042  : Glycolysis IV ✅ cohérent avec HUMAnN3
+5. NONOXIPENT-PWY : Pentose phosphate pathway
+6. VALSYN-PWY : L-valine biosynthesis
+7. PWY-7790  : UMP biosynthesis II ✅ cohérent avec HUMAnN3
+
+### Cohérence 16S ↔ Shotgun
+Les voies métaboliques majeures (glycolyse, biosynthèse acides aminés,
+UMP biosynthesis) sont détectées de manière cohérente par PICRUSt2 (16S)
+et HUMAnN3 (Shotgun), validant la robustesse des résultats.
+
+### Stockage
+- Résultats : EXTERNAL_USB3/gut-microbiome-reference/results/picrust2_16S/
+- Script : scripts/pipeline1_16S/05_picrust2.sh
